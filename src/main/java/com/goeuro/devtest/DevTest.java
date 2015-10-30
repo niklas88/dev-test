@@ -22,7 +22,7 @@ public class DevTest {
 
     public static void main(String[] args) {
         String cityName = parseArguments(args);
-        GoEuroClient api = new GoEuroClient("http://api.goeuro.com", "en");
+        GoEuroClient api = new GoEuroClient("api.goeuro.com", "en");
         try {
             List<Map<String, Object>> resultList = api.getLocationSuggestions(cityName);
             for (Map<String, Object> result : resultList){

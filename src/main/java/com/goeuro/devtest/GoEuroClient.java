@@ -12,10 +12,8 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +25,7 @@ import java.util.Map;
  */
 public class GoEuroClient {
     private final CloseableHttpClient httpClient;
-    private final String baseUri;
+    private final String host;
     private final ObjectMapper mapper;
     private String languageShort;
     private static final String apiVersion = "v2";
@@ -43,12 +41,7 @@ public class GoEuroClient {
     private URI buildApiURI(String verb, String entity) {
         URI result = null;
         try {
-            String saveEntity = URLEncoder.encode(entity, "UTF-8"); // UTF-8 what else ;-)
-            result = new URI(baseUri + "/api/" + apiVersion + "/" + verb + "/" + languageShort + "/" + saveEntity);
-        } catch (UnsupportedEncodingException e) {
-            System.err.println("Your system does not support tUTF-8 encoding, something is seriously wrong with it.");
-            // There is really no recovering in this situation
-            System.exit(0xBADBEEF);
+            result = new URI("http",host,"/api/" + apiVersion + "/" + verb + "/" + languageShort + "/" + entity, null);
         } catch (URISyntaxException e) {
             System.err.println("INTERNAL_ERROR: A broken URI was created " + e.getMessage());
             System.exit(0xBAD);
@@ -57,8 +50,8 @@ public class GoEuroClient {
     }
 
 
-    public GoEuroClient(String baseUri, String languageShort) {
-        this.baseUri = baseUri;
+    public GoEuroClient(String host, String languageShort) {
+        this.host = host;
         this.httpClient = HttpClients.createDefault();
         this.mapper = new ObjectMapper(new JsonFactory());
     }
