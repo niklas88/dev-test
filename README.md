@@ -12,7 +12,7 @@ or build on the command line:
 ```
 after that you will find the executable jar file in the target directory.
 Alternatively on Unix-like systems you can just run ```build.sh``` which
-also copies the jar file to "devtest.jar"
+also copies the jar file to "GoEuroTest.jar"
 
 Exercise
 ========

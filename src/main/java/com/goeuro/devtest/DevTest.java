@@ -16,7 +16,7 @@ public class DevTest {
      */
     public static String parseArguments(String[] args) {
         if (args.length != 1) {
-            System.out.println("Usage: java -jar devtest.jar <CITY_NAME>");
+            System.out.println("Usage: java -jar GoEuroTest.jar <CITY_NAME>");
             System.exit(1);
         }
         return args[0];
