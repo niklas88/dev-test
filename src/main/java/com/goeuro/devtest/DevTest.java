@@ -2,7 +2,9 @@ package com.goeuro.devtest;
 
 import com.goeuro.devtest.api.GoEuroClient;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.List;
 
 public class DevTest {
@@ -24,13 +26,16 @@ public class DevTest {
     public static void main(String[] args) {
         String cityName = parseArguments(args);
         GoEuroClient api = new GoEuroClient("api.goeuro.com", "en");
+
         try {
+            PrintStream out = new PrintStream(new FileOutputStream("result.csv"));
             List<GoEuroClient.LocationSuggestion> resultList = api.getLocationSuggestions(cityName);
             // Let's also print a CSV header even though the spec isn't too clear on this
-            System.out.println("ID,Name,Type,Latitude,Longitude");
+            out.println("ID,Name,Type,Latitude,Longitude");
             for (GoEuroClient.LocationSuggestion s : resultList){
-                System.out.println(s.id+","+s.name+","+s.type+","+s.geoPosition.latitude+","+s.geoPosition.longitude);
+                out.println(s.id+","+s.name+","+s.type+","+s.geoPosition.latitude+","+s.geoPosition.longitude);
             }
+            System.out.println("Result written to result.csv");
         } catch (IOException e) {
             System.err.println("ERROR: "+e.getMessage());
         }
