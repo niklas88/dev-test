@@ -1,5 +1,8 @@
-package com.goeuro.devtest;
+package com.goeuro.devtest.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +18,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * GoEuroClient provides an easily useable though very limited
@@ -50,14 +52,52 @@ public class GoEuroClient {
     }
 
 
+    /**
+     * Construct a GoEuroClient using the given host as its
+     * endpoint and runs queries for the language specified
+     * as a two letter code e.g. "en" or "de"
+     *
+     * @param host
+     * @param languageShort
+     */
     public GoEuroClient(String host, String languageShort) {
         this.host = host;
         this.httpClient = HttpClients.createDefault();
         this.mapper = new ObjectMapper(new JsonFactory());
     }
 
-    public List<Map<String, Object>> getLocationSuggestions(String location) throws IOException {
-        HttpGet httpGet = new HttpGet(buildApiURI("position/suggest", location));
+    /**
+     * POD class for location suggestions, all fields are final
+     * as suggestions should not change on the client.
+     */
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class LocationSuggestion {
+        public final int id;
+        public final String name;
+        public final String type;
+        public final GeoPosition geoPosition;
+
+        @JsonCreator
+        public LocationSuggestion(@JsonProperty("_id") int id,
+                                  @JsonProperty("name") String name,
+                                  @JsonProperty("type") String type,
+                                  @JsonProperty("geo_position") GeoPosition geoPosition){
+            this.id = id;
+            this.name = name;
+            this.type = type;
+            this.geoPosition = geoPosition;
+        }
+    }
+    /**
+     * Queries the GoEuro API for a list of location suggestions given a location's
+     * name.
+     *
+     * @param locationName
+     * @return
+     * @throws IOException
+     */
+    public List<LocationSuggestion> getLocationSuggestions(String locationName) throws IOException {
+        HttpGet httpGet = new HttpGet(buildApiURI("position/suggest", locationName));
         httpGet.addHeader("Accept", "application/json");
         CloseableHttpResponse response = httpClient.execute(httpGet);
         StatusLine statusLine = response.getStatusLine();
@@ -66,7 +106,7 @@ public class GoEuroClient {
         }
         HttpEntity resEntity = response.getEntity();
         BufferedInputStream content = new BufferedInputStream(resEntity.getContent());
-        List<Map<String, Object>> result = mapper.readValue(content, new TypeReference<List<Map<String, Object>>>() {});
+        List<LocationSuggestion> result = mapper.readValue(content, new TypeReference<List<LocationSuggestion>>() {});
         return result;
     }
 }

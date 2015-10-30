@@ -1,8 +1,9 @@
 package com.goeuro.devtest;
 
+import com.goeuro.devtest.api.GoEuroClient;
+
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class DevTest {
     /**
@@ -24,15 +25,9 @@ public class DevTest {
         String cityName = parseArguments(args);
         GoEuroClient api = new GoEuroClient("api.goeuro.com", "en");
         try {
-            List<Map<String, Object>> resultList = api.getLocationSuggestions(cityName);
-            for (Map<String, Object> result : resultList){
-                String name = (String) result.get("name");
-                int id = (Integer) result.get("_id");
-                String type = (String) result.get("type");
-                Map<String, Object> geoPosition = (Map<String, Object>) result.get("geo_position");
-                double latitude = (Double) geoPosition.get("latitude");
-                double longitude = (Double) geoPosition.get("longitude");
-                System.out.println(id+","+name+","+type+","+latitude+","+longitude);
+            List<GoEuroClient.LocationSuggestion> resultList = api.getLocationSuggestions(cityName);
+            for (GoEuroClient.LocationSuggestion s : resultList){
+                System.out.println(s.id+","+s.name+","+s.type+","+s.geoPosition.latitude+","+s.geoPosition.longitude);
             }
         } catch (IOException e) {
             System.err.println("ERROR: "+e.getMessage());
