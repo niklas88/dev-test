@@ -26,6 +26,8 @@ public class DevTest {
         GoEuroClient api = new GoEuroClient("api.goeuro.com", "en");
         try {
             List<GoEuroClient.LocationSuggestion> resultList = api.getLocationSuggestions(cityName);
+            // Let's also print a CSV header even though the spec isn't too clear on this
+            System.out.println("ID,Name,Type,Latitude,Longitude");
             for (GoEuroClient.LocationSuggestion s : resultList){
                 System.out.println(s.id+","+s.name+","+s.type+","+s.geoPosition.latitude+","+s.geoPosition.longitude);
             }
