@@ -1,6 +1,21 @@
 Java Developer Test
 ===================
 
+Building
+========
+The only prerequisite is maven, dependencies are pulled in automatically.
+You can either import the project in IDEs with maven support such as IntelliJ
+or build on the command line:
+
+```
+  mvn compile assembly:single
+```
+after that you will find the executable jar file in the target directory.
+Alternatively on Unix-like systems you can just run ```build.sh``` which
+also copies the jar file to "devtest.jar"
+
+Exercise
+========
 The purpose of this test is to see how you approach a problem and what your solutions look like. The requirements for this test are simple and should be straightforward to grasp. When implementing a solution, please keep things simple but well engineered - as you would do for production code. 
 That said:
 Implement an API query and transform this data into a csv file
