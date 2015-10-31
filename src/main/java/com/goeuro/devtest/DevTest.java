@@ -12,6 +12,7 @@ public class DevTest {
     /**
      * Parses the arguments and performs sanity checks. On failure Usage is
      * printed and the program exits with a failure code
+     *
      * @param args
      * @return
      */
@@ -33,12 +34,12 @@ public class DevTest {
             List<LocationSuggestion> resultList = api.getLocationSuggestions(cityName);
             // Let's also print a CSV header even though the spec isn't too clear on this
             out.println("ID,Name,Type,Latitude,Longitude");
-            for (LocationSuggestion s : resultList){
-                out.println(s.id+","+s.name+","+s.type+","+s.geoPosition.latitude+","+s.geoPosition.longitude);
+            for (LocationSuggestion s : resultList) {
+                out.println(s.id + "," + s.name + "," + s.type + "," + s.geoPosition.latitude + "," + s.geoPosition.longitude);
             }
             System.out.println("Result written to result.csv");
         } catch (IOException e) {
-            System.err.println("ERROR: "+e.getMessage());
+            System.err.println("ERROR: " + e.getMessage());
         }
     }
 }

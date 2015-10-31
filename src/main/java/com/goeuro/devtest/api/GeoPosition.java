@@ -1,21 +1,25 @@
 package com.goeuro.devtest.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * GeoPosition is a simple POD class storing geographic coordinates expected to be
- * in the wgs-84 geoid. It could be argued that POD is not OOP enough but this
- * is simple, clean and we can still add methods such as for calculating distances.
- * <p/>
+ * in the wgs-84 geoid. It is immutable so retrieved data doesn't get changed inadverntently.
  * <p/>
  * Created by niklas on 30.10.15.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GeoPosition {
-    public double latitude;
-    public double longitude;
+    public final double latitude;
+    public final double longitude;
 
-    public GeoPosition(double latitude, double longitude) {
+    @JsonCreator
+    public GeoPosition(@JsonProperty("latitude") double latitude,
+                       @JsonProperty("longitude") double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public GeoPosition(){}
 }

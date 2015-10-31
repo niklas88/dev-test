@@ -40,7 +40,7 @@ public class GoEuroClient {
     private URI buildApiURI(String verb, String entity) {
         URI result = null;
         try {
-            result = new URI("http",host,"/api/" + apiVersion + "/" + verb + "/" + languageShort + "/" + entity, null);
+            result = new URI("http", host, "/api/" + apiVersion + "/" + verb + "/" + languageShort + "/" + entity, null);
         } catch (URISyntaxException e) {
             System.err.println("INTERNAL_ERROR: A broken URI was created " + e.getMessage());
             System.exit(0xBAD);
@@ -76,12 +76,13 @@ public class GoEuroClient {
         httpGet.addHeader("Accept", "application/json");
         CloseableHttpResponse response = httpClient.execute(httpGet);
         StatusLine statusLine = response.getStatusLine();
-        if(statusLine.getStatusCode() != 200){
-            throw new IOException("Error returned from Server: "+statusLine.getStatusCode()+":"+statusLine.getReasonPhrase());
+        if (statusLine.getStatusCode() != 200) {
+            throw new IOException("Error returned from Server: " + statusLine.getStatusCode() + ":" + statusLine.getReasonPhrase());
         }
         HttpEntity resEntity = response.getEntity();
         BufferedInputStream content = new BufferedInputStream(resEntity.getContent());
-        List<LocationSuggestion> result = mapper.readValue(content, new TypeReference<List<LocationSuggestion>>() {});
+        List<LocationSuggestion> result = mapper.readValue(content, new TypeReference<List<LocationSuggestion>>() {
+        });
         return result;
     }
 }

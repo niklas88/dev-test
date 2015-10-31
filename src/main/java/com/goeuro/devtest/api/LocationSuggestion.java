@@ -5,9 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * POD class for location suggestions, all fields are final
- * as suggestions should not change on the client.
- *
+ * POD class for location suggestions. It is immutable so retrieved data doesn't get changed inadverntently.
+ * <p/>
  * Created by niklas on 31.10.15.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -21,7 +20,7 @@ public class LocationSuggestion {
     public LocationSuggestion(@JsonProperty("_id") int id,
                               @JsonProperty("name") String name,
                               @JsonProperty("type") String type,
-                              @JsonProperty("geo_position") GeoPosition geoPosition){
+                              @JsonProperty("geo_position") GeoPosition geoPosition) {
         this.id = id;
         this.name = name;
         this.type = type;
