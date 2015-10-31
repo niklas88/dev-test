@@ -1,6 +1,7 @@
 package com.goeuro.devtest;
 
 import com.goeuro.devtest.api.GoEuroClient;
+import com.goeuro.devtest.api.LocationSuggestion;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,10 +30,10 @@ public class DevTest {
 
         try {
             PrintStream out = new PrintStream(new FileOutputStream("result.csv"));
-            List<GoEuroClient.LocationSuggestion> resultList = api.getLocationSuggestions(cityName);
+            List<LocationSuggestion> resultList = api.getLocationSuggestions(cityName);
             // Let's also print a CSV header even though the spec isn't too clear on this
             out.println("ID,Name,Type,Latitude,Longitude");
-            for (GoEuroClient.LocationSuggestion s : resultList){
+            for (LocationSuggestion s : resultList){
                 out.println(s.id+","+s.name+","+s.type+","+s.geoPosition.latitude+","+s.geoPosition.longitude);
             }
             System.out.println("Result written to result.csv");

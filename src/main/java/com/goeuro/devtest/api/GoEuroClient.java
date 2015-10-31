@@ -1,8 +1,5 @@
 package com.goeuro.devtest.api;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,28 +63,6 @@ public class GoEuroClient {
         this.mapper = new ObjectMapper(new JsonFactory());
     }
 
-    /**
-     * POD class for location suggestions, all fields are final
-     * as suggestions should not change on the client.
-     */
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class LocationSuggestion {
-        public final int id;
-        public final String name;
-        public final String type;
-        public final GeoPosition geoPosition;
-
-        @JsonCreator
-        public LocationSuggestion(@JsonProperty("_id") int id,
-                                  @JsonProperty("name") String name,
-                                  @JsonProperty("type") String type,
-                                  @JsonProperty("geo_position") GeoPosition geoPosition){
-            this.id = id;
-            this.name = name;
-            this.type = type;
-            this.geoPosition = geoPosition;
-        }
-    }
     /**
      * Queries the GoEuro API for a list of location suggestions given a location's
      * name.
